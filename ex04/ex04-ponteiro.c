@@ -2,7 +2,7 @@
 
 int main() {
   int min = 10, max = 20;
-  int *ptr;
+  int *ptr = NULL;
   printf("min = %d - max = %d - ptr = %p\n", min, max, ptr);
 
   ptr = &min;
