@@ -15,6 +15,7 @@ void buscaMatriz(int mat[][QTD_COLUNAS], int lin, int col, int valor, int pos[2]
 void transposta(int mat[][QTD_COLUNAS], int lin, int col, int matTrasp[][QTD_LINHAS]);
 void transpostaInPlace(int mat[][QTD_COLUNAS], int ordem);
 int lerDentroIntervalo(int min, int max);
+int ehDiagonal(int mat[][QTD_COLUNAS], int ordem);
 
 int main() {
     int qtdLinhas, qtdColunas;
@@ -32,11 +33,16 @@ int main() {
     printf("Digite a quantidade de colunas (1-%d): ", QTD_COLUNAS);
     qtdColunas = lerDentroIntervalo(1, QTD_COLUNAS);
 
-    // lerMatriz(matriz, qtdLinhas, qtdColunas);
-    preencherMatrizAleatoria(matriz, qtdLinhas, qtdColunas);
+    lerMatriz(matriz, qtdLinhas, qtdColunas);
+    // preencherMatrizAleatoria(matriz, qtdLinhas, qtdColunas);
     printf("\n--------------------\n");
     imprimirMatriz(matriz, qtdLinhas, qtdColunas);
     printf("\n--------------------\n");
+    if (qtdLinhas == qtdColunas && ehDiagonal(matriz, qtdLinhas)) {
+        printf("É uma matriz diagonal!\n");
+    } else {
+        printf("Não é uma matriz diagonal!\n");
+    }
     calcularSomatorioMediaColuna(matriz, qtdLinhas, qtdColunas, somatorio, media);
     printf("Somatório por coluna: ");
     imprimirVetorInt(somatorio, qtdColunas);
@@ -145,4 +151,25 @@ void transpostaInPlace(int mat[][QTD_COLUNAS], int ordem) {
             mat[j][i] = aux;
         }
     }
+}
+
+int ehDiagonalPrincSec(int mat[][QTD_COLUNAS], int ordem, int princ) {
+    int difZero = 0;
+    for (int i = 0; i < ordem; ++i) {
+        for (int j = 0; j < ordem; ++j) {
+            if (mat[i][j] != 0) {
+                if ((princ && i != j) || (!princ && i + j != ordem - 1)) {
+                    return 0;
+                } else {
+                    difZero = 1;
+                }
+            }
+        }
+    }
+    return difZero;
+}
+
+int ehDiagonal(int mat[][QTD_COLUNAS], int ordem) {
+    return ehDiagonalPrincSec(mat, ordem, 1) ||
+        ehDiagonalPrincSec(mat, ordem, 0);
 }
