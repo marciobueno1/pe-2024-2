@@ -1,9 +1,10 @@
 #include <stdio.h>
 
-#define TAM 5
+#define TAM 8
 
 void inserirVetor(int v[], int *tam);
 void imprimirVetor(int v[], int tam);
+void inserirOrdenadoVetor(int v[], int *tam);
 
 int main() {
     int vetor[TAM];
@@ -16,7 +17,7 @@ int main() {
         printf("Digite sua opção (0 p/ sair): ");
         scanf("%d", &opcao);
         switch(opcao) {
-            case 1: inserirVetor(vetor, &tam); break;
+            case 1: inserirOrdenadoVetor(vetor, &tam); break;
             case 2: imprimirVetor(vetor, tam); break;
             default: if (opcao != 0) printf("Opção inválida!\n");
         }
@@ -31,6 +32,23 @@ void inserirVetor(int v[], int *tam) {
         *tam += 1;
     } else {
         printf("Vetor cheio!");
+    }
+}
+
+void inserirOrdenadoVetor(int v[], int *tam) {
+    int num, i;
+    if (*tam < TAM) {
+        printf("Digite um valor: ");
+        scanf("%d", &num);
+        i = *tam;
+        *tam += 1;
+        while (i > 0 && v[i - 1] > num) {
+            v[i] = v[i - 1];
+            --i;
+        }
+        v[i] = num;
+    } else {
+        printf("Vetor cheio!\n");
     }
 }
 
