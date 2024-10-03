@@ -1,13 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define M 5
+#define M 6
 #define N 4
+#define MAX_VALOR 5
 
 void preencherMatriz(int m[][N], int lin, int col);
 void imprimirMatriz(int m[][N], int lin, int col);
 void maiorCadaColuna(int m[][N], int lin, int col, int v[]);
 void imprimirVetor(int v[], int tam);
+void imprimirMaisRepetidos(int m[][N], int lin, int col);
 
 int main() {
     int matriz[M][N];
@@ -30,6 +32,7 @@ int main() {
             maiorCadaColuna(matriz, M, N, vetor);
             imprimirVetor(vetor, N);
         default:
+            imprimirMaisRepetidos(matriz, M, N);
             break;
         }
     } while (opcao != 0);
@@ -39,7 +42,7 @@ int main() {
 void preencherMatriz(int m[][N], int lin, int col) {
     for (int i = 0; i < lin; ++i) {
         for (int j = 0; j < col; ++j) {
-            m[i][j] = rand() % 100 + 1;
+            m[i][j] = rand() % MAX_VALOR + 1;
         }
     }
 }
@@ -70,4 +73,55 @@ void imprimirVetor(int v[], int tam) {
         printf("%d ", v[i]);
     }
     printf("\n");
+}
+
+void zerarVetor(int v[], int tam) {
+    for (int i = 0; i < tam; ++i) {
+        v[i] = 0;
+    }
+}
+
+int qtdRepetidosVetor(int v[], int tam) {
+    int qtd = 0;
+    for (int i = 0; i < tam; ++i) {
+        if (v[i] > 1) {
+            qtd += v[i];
+        }
+    }
+    return qtd;
+}
+
+void imprimirMaisRepetidos(int m[][N], int lin, int col) {
+    int v[MAX_VALOR];
+    int qtdReptidos, qtdMaisRepetidos = 0, indiceMaisRepetidos = 0, ehColuna = 0;
+    for (int i = 0; i < lin; ++i) {
+        zerarVetor(v, MAX_VALOR);
+        for (int j = 0; j < col; ++j) {
+            v[m[i][j] - 1] += 1;
+        }
+        qtdReptidos = qtdRepetidosVetor(v, MAX_VALOR);
+        if (qtdReptidos > qtdMaisRepetidos) {
+            qtdMaisRepetidos = qtdReptidos;
+            indiceMaisRepetidos = i;
+            ehColuna = 0;
+        }
+    }
+
+    for (int j = 0; j < col; ++j) {
+        zerarVetor(v, MAX_VALOR);
+        for (int i = 0; i < lin; ++i) {
+            v[m[i][j] - 1] += 1;
+        }
+        qtdReptidos = qtdRepetidosVetor(v, MAX_VALOR);
+        if (qtdReptidos > qtdMaisRepetidos) {
+            qtdMaisRepetidos = qtdReptidos;
+            indiceMaisRepetidos = j;
+            ehColuna = 1;
+        }
+    }
+
+    printf("\nA %s com mais elementos repetidos e %d\n\n",
+        ehColuna ? "coluna" : "linha",
+        indiceMaisRepetidos
+    );
 }
