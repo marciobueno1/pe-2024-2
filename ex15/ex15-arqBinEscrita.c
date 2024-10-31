@@ -2,7 +2,9 @@
 #include <stdlib.h>
 
 int main() {
-    FILE *arq = fopen ("teste.txt", "wt");
+    int status;
+    double pi = 3.14159;
+    FILE *arq = fopen ("teste.bin", "ab");
     if (arq == NULL) {
         printf("Erro na abertura do arquivo!\n");
         return 1;
@@ -10,8 +12,13 @@ int main() {
         printf("Arquivo aberto com sucesso!\n");
     }
 
-    int qtd = fprintf(arq, "Olá Mundo!\n");
-    printf("qtd = %d\n", qtd);
+    status = fwrite(&pi, sizeof(double), 1, arq);
+    printf("status = %d\n", status);
+    if (status == 1) {
+        printf("Sucesso na escrita!\n");
+    } else {
+        printf("Erro na escrita!\n");
+    }
 
     if (!fclose(arq)) {
         printf("Arquivo fechado com sucesso!");
