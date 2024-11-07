@@ -1,13 +1,14 @@
 #include <stdio.h>
+#include <stdlib.h>
 
-#define QTD_ALUNOS 5
+#define QTD_ALUNOS 10000000
 
 double media(double notas[], int tam);
 void imprimirValoresMaioresValor(double notas[], int tam, double valor);
 int busca(double v[], int tam, double valor);
 
 int main() {
-    double notas[QTD_ALUNOS];
+    double *notas = (double *) malloc(QTD_ALUNOS * sizeof(double));
 
     for (int i = 0; i < QTD_ALUNOS; ++i) {
         printf("Digite a %da nota: ", i + 1);
