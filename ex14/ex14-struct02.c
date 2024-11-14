@@ -22,10 +22,12 @@ void lerPessoas(struct Pessoa pessoas[], int tam);
 void inserirOrdenado(struct Pessoa v[], int tam, struct Pessoa valor);
 void imprimirTodosIMC(struct Pessoa pessoas[], int tam);
 int buscaBinariaNome(struct Pessoa v[], int tam, char *valor);
+void bubblesort (struct Pessoa v[ ], int n);
 
 int main() {
     struct Pessoa pessoas[QTD_PESSOAS];
     lerPessoas(pessoas, QTD_PESSOAS);
+    bubblesort(pessoas, QTD_PESSOAS);
     printf("\nLISTAGEM DE PESSOAS\n\n");
     imprimirPessoas(pessoas, QTD_PESSOAS);
     imprimirTodosIMC(pessoas, QTD_PESSOAS);
@@ -69,11 +71,29 @@ void lerPessoa(struct Pessoa *pessoa) {
 }
 
 void lerPessoas(struct Pessoa pessoas[], int tam) {
-    struct Pessoa pessoa;
+    // struct Pessoa pessoa;
     for (int i = 0; i < tam; ++i) {
         printf("\nDados da %da pessoa\n", i + 1);
-        lerPessoa(&pessoa);
-        inserirOrdenado(pessoas, i, pessoa);
+        lerPessoa(&pessoas[i]);
+        // inserirOrdenado(pessoas, i, pessoa);
+    }
+}
+
+void bubblesort (struct Pessoa v[ ], int n) {
+    int i, fim, pos, troca;
+    struct Pessoa aux;
+    troca = 1; fim = n - 2; pos = 0;
+    while (troca == 1) {
+        troca = 0;
+        for (i = 0; i <= fim; i++) {
+            if (strcmp(v[i].nome, v[i+1].nome) > 0) {
+                aux = v[i];
+                v[i] = v[i+1];
+                v[i+1] = aux;
+                pos = i; troca = 1;
+            }
+        }
+        fim = pos-1;
     }
 }
 
